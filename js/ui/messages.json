@@ -1,0 +1,50 @@
+{
+  "alerts": {
+    "credentials_missing": {
+      "title": "缺少憑證",
+      "message": "請先上傳包含平台憑證的 JSON 檔案。",
+      "confirmText": "確定",
+      "icon": "warning"
+    },
+    "credentials_mode_missing": {
+      "title": "憑證環境不符",
+      "message": "缺少{mode}環境憑證資料",
+      "confirmText": "確定",
+      "icon": "warning"
+    },
+    "invalid_credentials": {
+      "title": "無效憑證",
+      "message": "{provider} 憑證包含無效值，請提供正確的憑證",
+      "confirmText": "確定",
+      "icon": "warning"
+    },
+    "credentials_validation_failed": {
+      "title": "憑證驗證失敗",
+      "message": "缺少 {mode} 環境憑證。請上傳包含有效 {mode} 憑證的 JSON 檔案。",
+      "confirmText": "確定",
+      "icon": "warning"
+    },
+    "fetch_error": {
+      "title": "讀取失敗",
+      "message": "請確認檔案網址正確（需支援 CORS）",
+      "confirmText": "確定",
+      "icon": "warning"
+    }
+  },
+  "confirmations": {
+    "clear_data": {
+      "title": "清空資料",
+      "message": "目前有 {count} 筆發票資料，確定要清空嗎？",
+      "confirmText": "確定",
+      "cancelText": "取消",
+      "icon": "delete"
+    },
+    "void_invoice": {
+      "title": "作廢發票",
+      "message": "確定要作廢發票 {invoiceNumber} 嗎？",
+      "confirmText": "確定",
+      "cancelText": "取消",
+      "icon": "cancel"
+    }
+  }
+}

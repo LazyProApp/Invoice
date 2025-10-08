@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<!--
+888                                                    8888888                            d8b
+888                                                      888                              Y8P
+888                                                      888
+888       8888b.  88888888 888  888       .d88b.         888   88888b.  888  888  .d88b.  888  .d8888b .d88b.
+888          "88b    d88P  888  888      d8P  Y8b        888   888 "88b 888  888 d88""88b 888 d88P"   d8P  Y8b
+888      .d888888   d88P   888  888      88888888 888888 888   888  888 Y88  88P 888  888 888 888     88888888
+888      888  888  d88P    Y88b 888      Y8b.            888   888  888  Y8bd8P  Y88..88P 888 Y88b.   Y8b.
+88888888 "Y888888 88888888  "Y88888       "Y8888       8888888 888  888   Y88P    "Y88P"  888  "Y8888P "Y8888
+                                888
+                           Y8b d88P
+                            "Y88P"
+
+Built with Claude Code, Codex, Cloudflare Workers & Pages | by Nel Tseng
+-->
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lazy e-Invoice - 輕鬆自在開發票</title>
+    <meta name="description" content="Lazy e-Invoice 支援 ECPay、ezPay、O'Pay、SmilePay、AMEGO 等提供完整開發文件及公開測試憑證的加值中心，憑證金鑰與發票資料均採用 JSON 格式，零信任架構，不儲存發票資料，保障隱私安全。">
+    <meta name="keywords" content="電子發票,發票自動化,ECPay,ezPay,O'Pay,SmilePay,AMEGO,加值中心,B2B發票,B2C發票,電子發票工具,JSON格式,零信任架構,輕鬆自在開發票">
+    <meta name="author" content="Lazy Invoice">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://lazyinvoice.app/">
+
+    <meta property="og:title" content="Lazy e-Invoice - 輕鬆自在開發票">
+    <meta property="og:description" content="支援 ECPay、ezPay、O'Pay、SmilePay、AMEGO 等提供完整開發文件及公開測試憑證的加值中心。零信任架構，不儲存發票資料，保障隱私安全。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lazyinvoice.app/">
+    <meta property="og:image" content="https://lazyinvoice.app/assets/images/og-image.png">
+    <meta property="og:locale" content="zh_TW">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lazy e-Invoice - 輕鬆自在開發票">
+    <meta name="twitter:description" content="支援 ECPay、ezPay、O'Pay、SmilePay、AMEGO 等提供完整開發文件及公開測試憑證的加值中心。零信任架構，不儲存發票資料，保障隱私安全。">
+    <meta name="twitter:image" content="https://lazyinvoice.app/assets/images/og-image.png">
+
+    <style>
+        #initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #0a0a0a;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader {
+            height: 50px;
+            aspect-ratio: 2;
+            border: 10px solid #000;
+            box-sizing: border-box;
+            background:
+                radial-gradient(farthest-side, #fff 98%, #0000) left/20px 20px,
+                radial-gradient(farthest-side, #fff 98%, #0000) left/20px 20px,
+                radial-gradient(farthest-side, #fff 98%, #0000) center/20px 20px,
+                radial-gradient(farthest-side, #fff 98%, #0000) right/20px 20px,
+                #000;
+            background-repeat: no-repeat;
+            filter: blur(4px) contrast(10);
+            animation: l14 1s infinite;
+        }
+
+        @keyframes l14 {
+            100% {
+                background-position: right, left, center, right;
+            }
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+    <script type="importmap">
+        {
+            "imports": {
+                "@material/web/": "https://esm.run/@material/web/"
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+
+
+    </script>
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#8b5cf6',
+                        'surface': '#0a0a0a',
+                        'surface-variant': '#1a1a1a',
+                        'on-surface': '#f1f1f1',
+                        'on-surface-variant': '#a1a1aa'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body,
+        h1,
+        h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .loading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 9999;
+            background: var(--md-sys-color-primary);
+            animation: progressBar 1.5s linear infinite;
+        }
+
+        @keyframes progressBar {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        .loading #welcomeScreen {
+            display: none;
+        }
+
+        .ide-container>div,
+        .ide-container>h1 {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .ide-container>div.loaded,
+        .ide-container>h1.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        .surface-container {
+            background-color: var(--md-sys-color-surface-container);
+        }
+
+        .text-on-surface-variant {
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .text-on-surface {
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .border-outline {
+            border-color: rgb(39, 39, 42);
+        }
+
+        #welcomeScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9998;
+            color: var(--md-sys-color-on-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--md-sys-color-surface);
+            min-height: 100vh;
+            opacity: 1;
+            transition: opacity 0.6s ease-out;
+        }
+
+        #welcomeScreen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        main,
+        .fixed.bottom-0 {
+            filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: filter 0.8s ease-out, opacity 0.8s ease-out, visibility 0s 0.8s;
+        }
+
+        main.show,
+        .fixed.bottom-0.show {
+            filter: blur(0);
+            opacity: 1;
+            visibility: visible;
+            transition: filter 0.8s ease-out, opacity 0.8s ease-out, visibility 0s;
+        }
+
+        body.welcome-active main,
+        body.welcome-active header {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="text-gray-100 loading welcome-active bg-surface">
+
+    <div id="initial-loader">
+        <div class="loader"></div>
+    </div>
+
+    <div id="loadingProgress" class="loading-progress"></div>
+
+    <div id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="absolute top-4 right-4 z-10 md:top-6 md:right-6">
+                <md-icon-button id="infoButton">
+                    <md-icon>info</md-icon>
+                </md-icon-button>
+
+                <div id="infoTooltip" class="info-tooltip hidden">
+                    <div class="font-medium mb-2">Lazy e-Invoice</div>
+                    <div class="mb-3">
+                        支援 ECPay、ezPay、O'Pay、SmilePay、AMEGO 等提供完整開發文件及公開測試憑證的加值中心，憑證金鑰與發票資料均採用 JSON 格式，零信任架構，不儲存發票資料，保障隱私安全。
+                    </div>
+                    <div class="flex justify-start">
+                        <md-text-button id="closeTooltip" class="text-xs">確認</md-text-button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ide-container px-4 py-6 sm:px-6 sm:py-12 lg:px-8 lg:py-16 flex flex-col justify-center">
+                <div class="font-caveat text-3xl font-medium tracking-wide bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent logo-shimmer mb-6 sm:mb-8 text-center">
+                    Lazy e-Invoice
+                </div>
+
+                <h1 class="welcome-subtitle text-lg sm:text-xl text-center mb-6 sm:mb-12">
+                    您好，今天想要怎樣開發票呢？
+                </h1>
+
+                <div class="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-12 justify-center mx-auto items-center">
+                    <div class="feature-card w-full sm:w-40 p-5 sm:p-6" data-option="import" id="importCard">
+                        <md-ripple></md-ripple>
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2">
+                            <md-icon class="card-icon">upload_file</md-icon>
+                            <div class="card-title">匯入發票</div>
+                        </div>
+                        <div class="card-description w-full">匯入發票資料，立即開完所有發票。</div>
+                    </div>
+
+                    <div class="feature-card w-full sm:w-40 p-5 sm:p-6" data-option="credential" id="credentialCard">
+                        <md-ripple></md-ripple>
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2">
+                            <md-icon class="card-icon">key</md-icon>
+                            <div class="card-title">上傳憑證</div>
+                        </div>
+                        <div class="card-description w-full">上傳商店憑證，開始新增發票。</div>
+                    </div>
+
+                    <div class="feature-card w-full sm:w-40 p-5 sm:p-6" data-option="demo" id="demoCard">
+                        <md-ripple></md-ripple>
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2">
+                            <md-icon class="card-icon">science</md-icon>
+                            <div class="card-title">測試模式</div>
+                        </div>
+                        <div class="card-description w-full">啟用測試模式，體驗開發票。</div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-0 mb-6 sm:mb-10">
+                    <md-text-button id="skipWelcomeBtn">
+                        <span>進入主畫面</span>
+                    </md-text-button>
+                </div>
+
+                <div class="text-center mt-0">
+                    <div class="flex justify-center items-center gap-3 sm:gap-4 text-xs text-gray-500">
+                        <span>&copy; Lazy Invoice</span>
+                        <a href="https://github.com/neltseng/lazy-invoice" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Github</a>
+                        <a href="https://github.com/neltseng/lazy-invoice/issues" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Issues</a>
+                        <a href="https://www.facebook.com/groups/eczerogravity" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Group</a>
+                        <a href="https://cloudwp.pro/eczerogravity/vibe-coding/lazy-invoice/" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-[780px] mx-auto px-4">
+            <div class="flex items-center justify-center py-5">
+                <div class="font-caveat text-3xl font-medium tracking-wide bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent logo-shimmer">
+                    Lazy e-Invoice
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <md-menu id="mobileMoreMenu" anchor="mobileMoreBtn" positioning="popover" class="actions-menu">
+        <md-menu-item id="mobileDownloadMenuItem">
+            <span slot="headline">Download</span>
+        </md-menu-item>
+        <md-menu-item id="mobileClearMenuItem">
+            <span slot="headline">Clear All</span>
+        </md-menu-item>
+    </md-menu>
+
+    <main class="pt-20 pb-40">
+        <div class="max-w-[780px] mx-auto px-4">
+
+            <section class="mb-8" id="statsSection">
+                <div class="stats-card shadow-sm border border-zinc-800 px-6 py-10">
+                    <table class="w-full table-fixed">
+                        <colgroup>
+                            <col style="width: 30%;">
+                            <col style="width: 40%;">
+                            <col style="width: 30%;">
+                        </colgroup>
+                        <tr>
+                            <td class="border-r border-zinc-800 px-3">
+                                <div class="text-left mb-3">
+                                    <div class="text-sm text-gray-100">Total</div>
+                                </div>
+                                <div class="text-4xl sm:text-6xl text-gray-100 sf-numbers text-center" id="totalCount">0</div>
+                            </td>
+
+                            <td class="border-r border-zinc-800 px-3">
+                                <div class="text-left mb-3">
+                                    <div class="text-sm text-gray-100">Successfully</div>
+                                </div>
+                                <div class="text-4xl sm:text-6xl text-gray-100 sf-numbers text-center" id="successCount">0</div>
+                            </td>
+
+                            <td class="px-3">
+                                <div class="text-left mb-3">
+                                    <div class="text-sm text-gray-100">Failed</div>
+                                </div>
+                                <div class="text-4xl sm:text-6xl text-gray-100 sf-numbers text-center" id="failedCount">0</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-8" id="previewSection">
+                <div class="preview-card shadow-sm border border-zinc-800">
+                    <div class="p-6">
+                        <div class="invoice-header-container">
+                            <div class="flex items-center justify-between flex-wrap gap-y-4">
+                                <h2 class="text-lg font-semibold text-gray-100 invoice-title">Invoice</h2>
+
+                                <div class="header-actions flex items-center space-x-2 sm:space-x-4">
+                                    <div class="filter-tabs-row flex space-x-1 sm:space-x-2">
+                                        <md-text-button class="filter-tab active" data-status="all">
+                                            <span>All</span>
+                                        </md-text-button>
+
+                                        <md-text-button class="filter-tab" data-status="success">
+                                            <span>Success</span>
+                                        </md-text-button>
+                                        <md-text-button class="filter-tab" data-status="failed">
+                                            <span>Failed</span>
+                                        </md-text-button>
+                                    </div>
+
+                                    <div class="split-button">
+                                        <md-filled-tonal-button id="addNewInvoiceBtn" class="split-btn-main">
+                                            <md-icon slot="icon">add</md-icon>
+                                            <span>New</span>
+                                        </md-filled-tonal-button>
+                                        <md-filled-tonal-button id="moreActionsBtn" class="split-btn-dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <md-icon slot="icon">expand_more</md-icon>
+                                        </md-filled-tonal-button>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-actions sm:hidden flex gap-1">
+                                    <md-icon-button id="mobileNewBtn">
+                                        <md-icon>edit</md-icon>
+                                    </md-icon-button>
+                                    <md-icon-button id="mobileMoreBtn">
+                                        <md-icon>more_vert</md-icon>
+                                    </md-icon-button>
+                                </div>
+
+                                <md-menu id="moreActionsMenu" anchor="moreActionsBtn" positioning="popover" class="actions-menu">
+                                    <md-menu-item id="downloadMenuItem">
+                                        <span slot="headline">Download</span>
+                                    </md-menu-item>
+                                    <md-menu-item id="clearDataMenuItem">
+                                        <span slot="headline">Clear All</span>
+                                    </md-menu-item>
+                                </md-menu>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="invoiceTableContainer">
+                        <div id="emptyState" class="empty-state">
+                            <div class="empty-state-icon">
+                                <span class="material-symbols-outlined">receipt_long</span>
+                            </div>
+                            <div class="empty-state-title">No invoices yet</div>
+                        </div>
+
+                        <div id="invoiceTable" class="overflow-x-auto" style="display: none;">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="table-header-row border-b border-zinc-800">
+                                        <th class="text-left py-4 px-6 table-header w-20">Status</th>
+                                        <th class="text-left py-4 px-6 table-header w-52">Type</th>
+                                        <th class="text-left py-4 px-6 table-header w-60">Buyer</th>
+                                        <th class="text-left py-4 px-6 table-header w-36">Amount</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="invoiceTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        </div>
+    </main>
+
+    <div class="fixed bottom-0 left-0 right-0 fixed-bottom-container">
+        <div class="max-w-[780px] mx-auto px-4 py-4">
+            <div class="input-container p-4 border border-zinc-800">
+                <md-linear-progress id="fetchProgress" indeterminate>
+                </md-linear-progress>
+                <div class="mb-1">
+                    <input type="text" id="dataSource" placeholder="Upload JSON file or enter file URL" class="custom-input w-full" />
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <md-icon-button id="uploadBtn" class="upload-btn">
+                            <md-icon>add</md-icon>
+                        </md-icon-button>
+
+                        <md-text-button id="platformBtn" class="platform-btn">
+                            <md-icon slot="icon">receipt_long</md-icon>
+                            <span id="currentPlatform">Platform</span>
+                        </md-text-button>
+
+                        <md-text-button id="testModeBtn" class="test-mode-btn">
+                            <md-icon slot="icon">science</md-icon>
+                            <span class="test-mode-text-full">Test Mode</span>
+                            <span class="test-mode-text-short">Test</span>
+                        </md-text-button>
+                    </div>
+
+                    <md-filled-icon-button id="actionBtn" class="execute-btn disabled">
+                        <md-icon>send</md-icon>
+                    </md-filled-icon-button>
+                    <md-filled-icon-button id="actionBtnOutlined" class="execute-btn-outlined">
+                        <md-icon>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 6h12v12H6z"/>
+                            </svg>
+                        </md-icon>
+                    </md-filled-icon-button>
+                    <md-filled-button id="actionBtnText" class="execute-btn-text">
+                        Start
+                    </md-filled-button>
+                </div>
+            </div>
+
+            <div class="mt-2 pt-1 text-center">
+                <div class="flex justify-center items-center gap-4 text-xs text-gray-500">
+                    <span>&copy; Lazy Invoice</span>
+                    <a href="https://github.com/neltseng/lazy-invoice" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Github</a>
+                    <a href="https://github.com/neltseng/lazy-invoice/issues" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Issues</a>
+                    <a href="https://www.facebook.com/groups/eczerogravity" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">Group</a>
+                    <a href="https://cloudwp.pro/eczerogravity/vibe-coding/lazy-invoice/" target="_blank" rel="noopener noreferrer" class="footer-link hover:underline">More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".json" class="hidden">
+
+    <md-menu id="platformMenu" anchor="platformBtn" positioning="popover">
+        <md-menu-item data-provider="ezpay" title="ezPay 簡單付">
+            <div slot="headline">ezPay</div>
+        </md-menu-item>
+        <md-menu-item data-provider="ecpay" title="ECPay 綠界科技">
+            <div slot="headline">ECPay</div>
+        </md-menu-item>
+        <md-menu-item data-provider="opay" title="O'Pay 歐付寶">
+            <div slot="headline">O'Pay</div>
+        </md-menu-item>
+        <md-menu-item data-provider="smilepay" title="SmilePay 訊航科技">
+            <div slot="headline">SmilePay</div>
+        </md-menu-item>
+        <md-menu-item data-provider="amego" title="Amego 光貿">
+            <div slot="headline">Amego</div>
+        </md-menu-item>
+    </md-menu>
+
+    <md-dialog id="editDialog">
+        <div slot="headline" class="flex items-center">
+            <md-icon-button value="cancel">
+                <md-icon>close</md-icon>
+            </md-icon-button>
+            <div class="flex-1 text-center">
+                <md-filled-button id="categoryToggleButton" class="category-toggle-btn">
+                    <md-icon slot="icon">edit</md-icon>
+                    <span id="categoryText">B2B</span>
+                </md-filled-button>
+            </div>
+            <md-icon-button value="save" class="save-dialog-btn">
+                <md-icon>check</md-icon>
+            </md-icon-button>
+        </div>
+        <form slot="content" id="editForm" class="space-y-4">
+            <input type="hidden" id="editCategory" value="B2B">
+
+            <div id="b2bBasicFields" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <md-outlined-text-field label="Buyer Name" id="editBuyerName" required supporting-text="請填寫買受人公司名稱" error-text="請填寫買受人公司名稱"></md-outlined-text-field>
+                    <md-outlined-text-field label="Tax ID (UBN)" id="editBuyerUBN" required supporting-text="請填寫8位數統一編號" pattern="[0-9]{8}" maxlength="8" error-text="統一編號需為8位數字"></md-outlined-text-field>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <md-outlined-text-field label="Email" id="editBuyerEmail" type="email" supporting-text="Contact email address"></md-outlined-text-field>
+                    <md-outlined-text-field label="Custom Order Number" id="editMerchantOrderNo" disabled supporting-text="Auto-generated when saved"></md-outlined-text-field>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <md-outlined-text-field label="Phone" id="editBuyerPhone" supporting-text="Contact phone number"></md-outlined-text-field>
+                    <md-outlined-text-field label="Address" id="editBuyerAddress" supporting-text="Billing address"></md-outlined-text-field>
+                </div>
+
+            </div>
+
+            <div id="b2cBasicFields" class="space-y-4 hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <md-outlined-text-field label="Buyer Name" id="editBuyerNameB2C" required supporting-text="請填寫買受人姓名" error-text="請填寫買受人姓名"></md-outlined-text-field>
+                    <md-outlined-text-field label="Email" id="editBuyerEmailB2C" type="email" supporting-text="Customer email address"></md-outlined-text-field>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <md-outlined-text-field label="Phone" id="editBuyerPhoneB2C" supporting-text="Customer phone number"></md-outlined-text-field>
+                    <md-outlined-text-field label="Address" id="editBuyerAddressB2C" supporting-text="Customer address"></md-outlined-text-field>
+                    <md-outlined-text-field label="Custom Order Number" id="editMerchantOrderNoB2C" disabled supporting-text="Auto-generated when saved"></md-outlined-text-field>
+                </div>
+
+            </div>
+            <div id="b2cOnlyFields" class="space-y-4 hidden">
+                <div class="grid grid-cols-2 gap-4">
+                    <md-outlined-select label="Invoice Processing" id="editInvoiceProcessing">
+                    </md-outlined-select>
+                    <md-outlined-text-field label="Code/Number" id="editProcessingInput" disabled supporting-text="請填寫載具編號"></md-outlined-text-field>
+                </div>
+
+                <input type="hidden" id="editCarrierNum" value="">
+
+                <div id="kioskPrintField" class="hidden grid grid-cols-1 gap-4">
+                    <md-outlined-select label="Kiosk Print" id="editKioskPrintFlag">
+                        <md-select-option value="">No Kiosk Print</md-select-option>
+                        <md-select-option value="1">Enable Kiosk Print</md-select-option>
+                    </md-outlined-select>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <md-outlined-select label="Tax Type" id="editTaxType" menu-positioning="fixed">
+                    <md-select-option value="1">應稅</md-select-option>
+                    <md-select-option value="2_1">零稅率(非經海關出口)</md-select-option>
+                    <md-select-option value="2_2">零稅率(經海關出口)</md-select-option>
+                    <md-select-option value="3">免稅</md-select-option>
+                    <md-select-option value="9">混合稅率</md-select-option>
+                </md-outlined-select>
+                <md-outlined-text-field label="Tax Rate (%)" id="editTaxRate" type="number" supporting-text="Percentage rate (e.g., 5)" min="0" max="100" step="1" value="5" pattern="[0-9]*" no-spinner></md-outlined-text-field>
+            </div>
+
+            <div>
+
+
+                <div id="itemsList" class="space-y-3"></div>
+
+
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div id="customsClearanceField" class="hidden">
+                <md-outlined-select label="Customs Clearance" id="editCustomsClearance">
+                    <md-select-option value="1">Non-Customs Export</md-select-option>
+                    <md-select-option value="2">Customs Export</md-select-option>
+                </md-outlined-select>
+            </div>
+
+
+
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <md-text-button id="addItemBtn" class="add-item-text-btn">
+                        <md-icon slot="icon">add</md-icon>
+                        <span>Add Item</span>
+                    </md-text-button>
+                </div>
+
+                <div class="w-1/2 ml-auto">
+                    <md-outlined-text-field label="Comment" id="editComment" maxlength="200" class="w-full"></md-outlined-text-field>
+                </div>
+            </div>
+
+            <div>
+                <div class="mt-6 w-fit space-y-3 sf-numbers ml-auto">
+                    <div class="flex justify-between items-center min-w-48">
+                        <span class="text-sm text-zinc-400 amount-label">Subtotal</span>
+                        <span class="text-sm ml-4 amount-value" id="editSubtotal">NT$ 0</span>
+                    </div>
+                    <div class="flex justify-between items-center min-w-48">
+                        <span class="text-sm text-zinc-400 amount-label">Tax Amount</span>
+                        <span class="text-sm ml-4 amount-value" id="editTaxAmount">NT$ 0</span>
+                    </div>
+                    <div class="flex justify-between items-center min-w-48">
+                        <span class="text-base font-medium text-zinc-300 amount-label">Total</span>
+                        <span class="text-base font-medium ml-4 amount-value" id="editTotalAmount">NT$ 0</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </md-dialog>
+
+
+
+    <script src="js/main.js" type="module"></script>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loadingProgress = document.getElementById('loadingProgress');
+            const contentElements = document.querySelectorAll('.ide-container > div, .ide-container > h1');
+            const initialLoader = document.getElementById('initial-loader');
+
+            document.body.classList.remove('loading');
+            if (loadingProgress) {
+                loadingProgress.style.display = 'none';
+            }
+
+            if (initialLoader) {
+                initialLoader.style.opacity = '0';
+                initialLoader.style.transition = 'opacity 0.3s ease-out';
+                setTimeout(() => {
+                    initialLoader.remove();
+                }, 300);
+            }
+
+            setTimeout(() => {
+                contentElements.forEach(element => {
+                    element.classList.add('loaded');
+                });
+            }, 100);
+        });
+    </script>
+
+</body>
+
+</html>

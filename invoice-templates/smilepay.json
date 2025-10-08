@@ -1,0 +1,336 @@
+{
+    "provider": "smilepay",
+    "production": {
+        "grvc": "YOUR_GRVC",
+        "verify_key": "YOUR_VERIFY_KEY"
+    },
+    "test": {
+        "grvc": "SEI1000034",
+        "verify_key": "9D73935693EE0237FABA6AB744E48661"
+    },
+    "invoices": [
+        {
+            "merchant_order_no": "",
+            "category": "B2B",
+            "buyer_name": "台灣科技創新股份有限公司",
+            "buyer_ubn": "80129529",
+            "buyer_address": "台北市信義區信義路五段7號",
+            "buyer_email": "contact@techmax.tw",
+            "buyer_phone": "02-2345-6789",
+            "print_flag": "Y",
+            "tax_type": "2",
+            "tax_rate": 0,
+            "clearance_mark": "2",
+            "amt": 1190476,
+            "tax_amt": 0,
+            "total_amt": 1190476,
+            "items": [
+                {
+                    "name": "軟體開發服務",
+                    "count": 1,
+                    "unit": "",
+                    "price": 1190476,
+                    "amt": 1190476
+                }
+            ],
+            "comment": "B2B零稅率出口服務"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "王小明",
+            "buyer_email": "wang@example.com",
+            "buyer_phone": "0912-345-678",
+            "carrier_type": "EJ0113",
+            "carrier_num": "1234567890123456",
+            "carrier_num2": "0000123456789012",
+            "print_flag": "N",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 1300,
+            "tax_amt": 65,
+            "total_amt": 1365,
+            "items": [
+                {
+                    "name": "書籍",
+                    "count": 2,
+                    "unit": "本",
+                    "price": 150,
+                    "amt": 300
+                },
+                {
+                    "name": "筆記本",
+                    "count": 4,
+                    "unit": "本",
+                    "price": 100,
+                    "amt": 400
+                },
+                {
+                    "name": "橡皮擦",
+                    "count": 20,
+                    "unit": "個",
+                    "price": 30,
+                    "amt": 600
+                }
+            ],
+            "comment": "B2C悠遊卡載具發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2B",
+            "buyer_name": "黑閃實驗室",
+            "buyer_ubn": "80129529",
+            "buyer_address": "台北市信義區市府路45號89樓",
+            "buyer_email": "u@blackflash.network",
+            "buyer_phone": "02-8101-2345",
+            "print_flag": "Y",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 3397990,
+            "tax_amt": 169900,
+            "total_amt": 3567890,
+            "items": [
+                {
+                    "name": "Conrad Maldives The Muraka",
+                    "count": 10,
+                    "unit": "晚",
+                    "price": 339799,
+                    "amt": 3397990
+                }
+            ],
+            "comment": "2025 一晚的真實價格 $50,000"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "李美華",
+            "buyer_email": "lee@example.com",
+            "buyer_phone": "0923-456-789",
+            "carrier_type": "donate",
+            "carrier_num": "919",
+            "print_flag": "N",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 74762,
+            "tax_amt": 3738,
+            "total_amt": 78500,
+            "items": [
+                {
+                    "name": "慈善捐款",
+                    "count": 1,
+                    "unit": "筆",
+                    "price": 78500,
+                    "amt": 78500
+                }
+            ],
+            "comment": "捐贈紅十字會"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "陳志強",
+            "buyer_email": "chen@example.com",
+            "buyer_phone": "0934-567-890",
+            "carrier_type": "3J0002",
+            "carrier_num": "/ABC123D",
+            "print_flag": "N",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 2229,
+            "tax_amt": 111,
+            "total_amt": 2340,
+            "items": [
+                {
+                    "name": "3C電子產品",
+                    "count": 1,
+                    "unit": "個",
+                    "price": 2340,
+                    "amt": 2340
+                }
+            ],
+            "comment": "手機載具發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "張雅婷",
+            "buyer_email": "zhang@example.com",
+            "buyer_phone": "0945-678-901",
+            "carrier_type": "CQ0001",
+            "carrier_num": "AB12345678901234",
+            "print_flag": "N",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 43000,
+            "tax_amt": 2150,
+            "total_amt": 45150,
+            "items": [
+                {
+                    "name": "服飾用品",
+                    "count": 2,
+                    "unit": "件",
+                    "price": 22575,
+                    "amt": 45150
+                }
+            ],
+            "comment": "自然人憑證載具發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2B",
+            "buyer_name": "台北美食餐飲股份有限公司",
+            "buyer_ubn": "80129529",
+            "buyer_address": "台北市大安區忠孝東路四段123號",
+            "buyer_email": "info@food-taipei.com",
+            "buyer_phone": "02-8765-4321",
+            "print_flag": "Y",
+            "tax_type": "3",
+            "tax_rate": 0,
+            "amt": 496000,
+            "tax_amt": 0,
+            "total_amt": 496000,
+            "items": [
+                {
+                    "name": "餐飲設備租賃",
+                    "count": 1,
+                    "unit": "月",
+                    "price": 496000,
+                    "amt": 496000
+                }
+            ],
+            "comment": "B2B免稅設備租賃"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "林建宏",
+            "buyer_address": "台北市松山區民生東路四段133號",
+            "buyer_email": "print@customer.com",
+            "buyer_phone": "0956-789-012",
+            "print_flag": "Y",
+            "tax_type": "1",
+            "tax_rate": 5,
+            "amt": 14857,
+            "tax_amt": 743,
+            "total_amt": 15600,
+            "items": [
+                {
+                    "name": "運動用品",
+                    "count": 1,
+                    "unit": "組",
+                    "price": 15600,
+                    "amt": 15600
+                }
+            ],
+            "comment": "B2C列印發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "SmilePay混合稅率客戶",
+            "buyer_email": "mixed@smilepay.com",
+            "carrier_type": "3J0002",
+            "carrier_num": "/MIXED01",
+            "print_flag": "N",
+            "tax_type": "9",
+            "amt": 295,
+            "tax_amt": 5,
+            "total_amt": 300,
+            "sales_amount": 95,
+            "free_tax_sales_amount": 200,
+            "items": [
+                {
+                    "name": "SmilePay應稅商品",
+                    "count": 1,
+                    "unit": "個",
+                    "price": 100,
+                    "amt": 100,
+                    "tax_type": "1"
+                },
+                {
+                    "name": "SmilePay免稅商品",
+                    "count": 1,
+                    "unit": "個",
+                    "price": 200,
+                    "amt": 200,
+                    "tax_type": "3"
+                }
+            ],
+            "comment": "B2C混合稅率發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2C",
+            "buyer_name": "SmilePay零稅率客戶",
+            "buyer_email": "zero@smilepay.com",
+            "carrier_type": "3J0002",
+            "carrier_num": "/ZERO001",
+            "print_flag": "N",
+            "tax_type": "2",
+            "tax_rate": 0,
+            "clearance_mark": "2",
+            "amt": 2000,
+            "tax_amt": 0,
+            "total_amt": 2000,
+            "items": [
+                {
+                    "name": "SmilePay零稅率商品",
+                    "count": 1,
+                    "unit": "項",
+                    "price": 2000,
+                    "amt": 2000
+                }
+            ],
+            "comment": "B2C零稅率發票"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2B",
+            "buyer_name": "SmilePay特種稅率公司",
+            "buyer_ubn": "70762419",
+            "buyer_address": "台北市內湖區瑞光路76巷30號6樓",
+            "buyer_email": "special@smilepay.com",
+            "print_flag": "Y",
+            "tax_type": "4",
+            "tax_rate": 25,
+            "amt": 6400,
+            "tax_amt": 1600,
+            "total_amt": 8000,
+            "items": [
+                {
+                    "name": "SmilePay特種稅率商品",
+                    "count": 1,
+                    "unit": "項",
+                    "price": 8000,
+                    "amt": 8000
+                }
+            ],
+            "comment": "B2B特種稅率發票 - 測試環境需切換字軌"
+        },
+        {
+            "merchant_order_no": "",
+            "category": "B2B",
+            "buyer_name": "SmilePay B2B零稅率公司",
+            "buyer_ubn": "70762419",
+            "buyer_address": "台北市松山區民生東路四段133號5樓",
+            "buyer_email": "b2bzero@smilepay.com",
+            "tax_type": "2",
+            "tax_rate": 0,
+            "clearance_mark": "2",
+            "print_flag": "Y",
+            "amt": 6000,
+            "tax_amt": 0,
+            "total_amt": 6000,
+            "items": [
+                {
+                    "name": "SmilePay B2B零稅率商品",
+                    "count": 1,
+                    "unit": "件",
+                    "price": 6000,
+                    "amt": 6000
+                }
+            ],
+            "comment": "B2B零稅率發票"
+        }
+    ]
+}

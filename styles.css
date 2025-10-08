@@ -1,0 +1,1629 @@
+/* NT Lazy e-invoice Styles - Material Design 3 */
+
+/* MD3 System Design Tokens - Use f1f1f1 as primary */
+:root {
+    /* Font Stack */
+    --app-font-stack: '.SF NS', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', 'Segoe UI', sans-serif;
+
+    /* Primary colors - f1f1f1 white theme */
+    --md-sys-color-primary: #f1f1f1;
+    --md-sys-color-on-primary: #0a0a0a;
+    --md-sys-color-primary-container: #f1f1f1;
+    --md-sys-color-on-primary-container: #0a0a0a;
+    
+    /* Surface colors for dark theme */
+    --md-sys-color-surface: #0a0a0a;
+    --md-sys-color-surface-container: #1a1a1a;
+    --md-sys-color-surface-container-high: #1a1a1a;
+    --md-sys-color-surface-container-highest: #2a2a2a;
+    --md-sys-color-on-surface: #f1f1f1;
+    --md-sys-color-on-surface-variant: #a1a1aa;
+    
+    /* Outline colors */
+    --md-sys-color-outline: #404040;
+    --md-sys-color-outline-variant: #2a2a2a;
+    --md-sys-color-error: #ff5449;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ff8a80;
+    
+    /* Force dark theme */
+    color-scheme: dark;
+}
+
+/* Custom utility classes */
+.text-gray-100 {
+    color: var(--md-sys-color-primary);
+}
+
+.bg-surface {
+    background-color: var(--md-sys-color-surface);
+}
+
+.stats-card,
+.preview-card {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: 24px;
+}
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.fixed-bottom-container {
+    background-color: var(--md-sys-color-surface);
+}
+
+/* Execute Button States */
+.execute-btn {
+    display: inline-flex;
+}
+
+.execute-btn-outlined,
+.execute-btn-text {
+    display: none;
+}
+
+/* Amount Value Color */
+.amount-value {
+    color: var(--md-sys-color-primary);
+}
+
+/* Table Styles */
+.table-header {
+    font-size: 12px;
+    color: rgba(114, 114, 114, 0.78);
+    font-weight: normal;
+}
+
+.table-cell {
+    font-size: 14px;
+}
+
+/* Invoice Table Row Styles - Unified CSS Management */
+#invoiceTableBody tr {
+    transition: background-color 0.2s ease;
+}
+
+#invoiceTableBody tr:hover {
+    background-color: rgba(39, 39, 42, 0.3); /* hover:bg-zinc-800/30 */
+}
+
+#invoiceTableBody tr:not(:last-child) {
+    border-bottom: 1px solid rgb(39, 39, 42); /* border-zinc-800 */
+}
+
+/* Empty state styles */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #71717a;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #a1a1aa;
+}
+
+.empty-state-description {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* San Francisco Font for Numbers */
+.sf-numbers {
+    font-feature-settings: 'tnum';
+}
+
+/* Gradient Text Support */
+.bg-gradient-to-r {
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%);
+}
+
+.bg-clip-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.text-transparent {
+    color: transparent;
+}
+
+/* Global SF Font and Scrolling with Chinese Font Support */
+html, body {
+    font-family: var(--app-font-stack);
+    overflow-x: hidden;
+}
+
+body {
+    height: auto;
+    /* Remove min-height: 100vh to avoid forced minimum height */
+    overflow-y: auto;
+}
+
+/* Simplest scroll prevention: lock body only */
+body.dialog-open,
+html:has(body.dialog-open) {
+    overflow: hidden !important;
+}
+
+/* Filter Tabs */
+/* Filter Tabs */
+md-text-button.filter-tab {
+    --md-text-button-label-text-color: #71717a;
+}
+
+md-text-button.filter-tab.active {
+    --md-text-button-label-text-color: var(--md-sys-color-primary);
+}
+
+md-text-button.filter-tab:hover {
+    --md-text-button-label-text-color: var(--md-sys-color-primary);
+}
+
+/* Split Button */
+.split-button {
+    display: flex;
+    gap: 2px;
+}
+
+.split-button md-filled-tonal-button {
+    --md-filled-tonal-button-container-color: #3f3f46;
+    --md-filled-tonal-button-label-text-color: var(--md-sys-color-on-surface);
+    --md-filled-tonal-button-icon-color: var(--md-sys-color-primary);
+    --md-filled-tonal-button-hover-label-text-color: var(--md-sys-color-on-surface);
+    --md-filled-tonal-button-hover-icon-color: var(--md-sys-color-primary);
+    --md-filled-tonal-button-focus-label-text-color: var(--md-sys-color-on-surface);
+    --md-filled-tonal-button-focus-icon-color: var(--md-sys-color-primary);
+    --md-filled-tonal-button-pressed-label-text-color: var(--md-sys-color-on-surface);
+    --md-filled-tonal-button-pressed-icon-color: var(--md-sys-color-primary);
+}
+
+.split-button .split-btn-main {
+    border-radius: 20px 5px 5px 20px;
+}
+
+.split-button .split-btn-dropdown {
+    border-radius: 5px 20px 20px 5px;
+    --md-filled-tonal-button-leading-space: 16px;
+    --md-filled-tonal-button-trailing-space: 8px;
+    min-width: 48px;
+    width: 48px;
+}
+
+.split-button .split-btn-dropdown md-icon {
+    margin-left: 10px;
+}
+
+.split-button md-filled-tonal-button md-icon {
+    color: var(--md-sys-color-primary);
+}
+
+/* Actions Menu - Same style as Platform Menu */
+.actions-menu {
+    --md-menu-container-color: var(--md-sys-color-surface-container-highest);
+    --md-menu-container-elevation: 3;
+    --md-menu-container-shape: 24px;
+    min-width: 120px;
+}
+
+.actions-menu md-menu-item {
+    --md-menu-item-label-text-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-opacity: 0.08;
+}
+
+/* Hover White Effect */
+.hover-white:hover {
+    color: var(--md-sys-color-primary) !important;
+}
+
+/* Table Row Hover Animation - Different speeds for show/hide */
+.fade-text {
+    transition: opacity 150ms ease-out;
+}
+
+.fade-actions {
+    transition: opacity 150ms ease-out;
+}
+
+.group:hover .fade-text {
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+}
+
+.group:hover .fade-actions {
+    opacity: 1;
+    transition: opacity 400ms ease-out 200ms;
+}
+
+/* Carrier Action Container */
+.carrier-action-container {
+    font-size: 12px;
+}
+
+/* Carrier Info */
+.carrier-info {
+    font-size: 12px;
+    color: rgb(144, 144, 144);
+}
+
+/* Test Mode Button - Default (Desktop) */
+.test-mode-text-short {
+    display: none;
+}
+
+/* Mobile Table Styles - Vertical Layout */
+@media (max-width: 640px) {
+    /* Hide split-button on mobile */
+    .split-button {
+        display: none;
+    }
+
+    /* Show mobile actions on mobile */
+    .mobile-actions {
+        display: flex !important;
+    }
+
+    /* Invoice Header Layout - Mobile */
+    .invoice-header-container > div {
+        width: 100%;
+    }
+
+    .invoice-title {
+        order: 1;
+        width: auto;
+    }
+
+    .mobile-actions {
+        order: 2;
+        width: auto;
+    }
+
+    .header-actions {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Only show filter tabs on mobile */
+    .header-actions .split-button {
+        display: none;
+    }
+
+    /* Filter tabs - centered and distributed on mobile */
+    .filter-tabs-row {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    /* Dialog fields - force 1 column on mobile */
+    #editDialog .grid.grid-cols-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Hide table header */
+    #invoiceTable thead {
+        display: none;
+    }
+
+    /* Center and constrain tbody width */
+    #invoiceTableBody {
+        display: block;
+        width: 96%;
+        margin: 0 auto;
+    }
+
+    /* Make each row a card-like block */
+    #invoiceTableBody tr {
+        display: block;
+        padding: 10px 16px;
+        border-bottom: 1px solid rgb(39, 39, 42);
+    }
+
+    #invoiceTableBody tr:first-child {
+        border-top: 1px solid rgb(39, 39, 42);
+    }
+
+    /* Stack table cells vertically */
+    #invoiceTableBody td {
+        display: flex;
+        align-items: center;
+        padding: 6px 0;
+        text-align: left !important;
+        border: none;
+    }
+
+    /* Show label before content */
+    #invoiceTableBody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: rgb(161, 161, 170);
+        font-size: 14px;
+        margin-right: 12px;
+        flex-shrink: 0;
+        min-width: 70px;
+    }
+
+    /* Type and Buyer cells - grid layout for vertical stacking */
+    #invoiceTableBody td[data-label="Type"],
+    #invoiceTableBody td[data-label="Buyer"] {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        column-gap: 12px;
+        row-gap: 2px;
+        align-items: start;
+    }
+
+    #invoiceTableBody td[data-label="Type"]::before,
+    #invoiceTableBody td[data-label="Buyer"]::before {
+        margin-right: 0;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #invoiceTableBody td[data-label="Type"] > *,
+    #invoiceTableBody td[data-label="Buyer"] > * {
+        grid-column: 2;
+    }
+
+    /* Always show action buttons on mobile */
+    .fade-actions {
+        opacity: 1 !important;
+        position: static !important;
+        margin-top: 4px;
+    }
+
+    /* Always show carrier info on mobile */
+    .fade-text.carrier-info {
+        opacity: 1 !important;
+        font-size: inherit;
+        color: inherit;
+    }
+
+    /* Disable hover effect on mobile */
+    .group:hover .fade-text.carrier-info {
+        opacity: 1 !important;
+    }
+
+    /* Bottom buttons - hide icons on mobile */
+    .platform-btn md-icon,
+    .test-mode-btn md-icon {
+        display: none;
+    }
+
+    /* Test Mode button - show short text on mobile */
+    .test-mode-text-full {
+        display: none;
+    }
+
+    .test-mode-text-short {
+        display: inline;
+    }
+
+}
+
+
+/* Layout - Fixed to allow scrolling */
+html, body {
+    height: auto;
+    min-height: 100%;
+}
+
+body {
+    /* Remove flex layout that interferes with scroll */
+    display: block;
+}
+
+/* Custom Gradient Backgrounds */
+.gradient-bg {
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%);
+}
+
+.gradient-btn {
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #e5e5e5 0%, #d1d5db 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gradient-btn:hover::before {
+    opacity: 1;
+}
+
+.gradient-btn span,
+.gradient-btn {
+    position: relative;
+    z-index: 1;
+}
+
+/* MD3 Component Customizations */
+md-outlined-text-field {
+    --md-outlined-text-field-outline-color: #e2e8f0;
+    --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+    --md-outlined-text-field-label-text-color: #64748b;
+    --md-outlined-text-field-container-color: transparent;
+    --md-outlined-text-field-hover-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
+    --md-outlined-text-field-error-label-text-color: var(--md-sys-color-error);
+}
+
+md-filled-button.gradient-btn {
+    --md-filled-button-container-color: var(--md-sys-color-primary);
+    --md-filled-button-hover-container-color: #e5e5e5;
+    --md-filled-button-pressed-container-color: #d1d5db;
+}
+
+md-text-button {
+    --md-text-button-label-text-size: 14px;
+    --md-text-button-container-height: 32px;
+}
+
+/* Icon size override */
+md-icon-button {
+    --md-icon-button-icon-size: 24px;
+}
+
+md-linear-progress {
+    --md-linear-progress-active-indicator-color: var(--md-sys-color-primary);
+    --md-linear-progress-track-color: #334155;
+    border-radius: 4px;
+}
+
+/* Custom Input Field - No Border Ever */
+.custom-input {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 8px 12px;
+    color: var(--md-sys-color-on-surface);
+    font-size: 14px;
+    outline: none;
+    height: 40px;
+}
+
+.custom-input:focus {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.custom-input::placeholder {
+    color: #71717a;
+}
+
+/* Input Container - border handled by Tailwind class */
+.input-container {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: 24px;
+    position: relative;
+    transition: filter 0.3s ease; /* Keep transition for blur effect only */
+}
+
+#fetchProgress {
+    position: absolute;
+    top: 0;
+    left: 25px;
+    right: 25px;
+    display: none;
+}
+
+/* Chat-style Data Source Input */
+.data-input {
+    --md-outlined-text-field-outline-color: #4b5563;
+    --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+    --md-outlined-text-field-label-text-color: #9ca3af;
+    --md-outlined-text-field-container-color: transparent;
+    --md-outlined-text-field-supporting-text-color: #6b7280;
+}
+
+.data-input md-outlined-text-field {
+    --md-sys-color-on-surface: #f9fafb;
+    --md-sys-color-on-surface-variant: #9ca3af;
+}
+
+/* MD3 Icon Button Styles */
+
+
+/* MD3 Filled Icon Button for Execute Button */
+md-filled-icon-button.execute-btn {
+    --md-filled-icon-button-container-color: transparent !important;
+    --md-filled-icon-button-icon-color: #0a0a0a !important;
+    --md-filled-icon-button-container-width: 40px !important;
+    --md-filled-icon-button-container-height: 40px !important;
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%) !important;
+    color: #0a0a0a;
+    border-radius: 50% !important;
+}
+
+md-filled-icon-button.execute-btn.disabled {
+    --md-filled-icon-button-icon-color: #4b5563;
+    background: transparent;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+md-filled-icon-button.execute-btn.processing {
+    --md-filled-icon-button-icon-color: #0a0a0a;
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%);
+}
+
+/* Text button for execute */
+md-filled-button.execute-btn-text {
+    --md-filled-button-container-color: transparent !important;
+    --md-filled-button-label-text-color: #0a0a0a !important;
+    --md-filled-button-container-height: 40px !important;
+    background: linear-gradient(135deg, #f1f1f1 0%, #e5e5e5 100%) !important;
+    color: #0a0a0a;
+    border-radius: 20px !important;
+    min-width: 60px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1px !important;
+}
+
+md-filled-button.execute-btn-text:disabled,
+md-filled-button.execute-btn-text[disabled] {
+    --md-filled-button-label-text-color: #4b5563;
+    background: transparent !important;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Stop/Pause Button with white background */
+md-filled-icon-button.execute-btn-outlined {
+    --md-filled-icon-button-container-color: var(--md-sys-color-primary);
+}
+
+/* Void Button */
+.void-btn:hover {
+    --md-text-button-label-text-color: var(--md-sys-color-error) !important;
+}
+
+/* Material Design 3 Shadows */
+.md-shadow-1 {
+    box-shadow: 
+        0px 1px 2px rgba(0, 0, 0, 0.3),
+        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.md-shadow-2 {
+    box-shadow: 
+        0px 1px 2px rgba(0, 0, 0, 0.3),
+        0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+}
+
+.md-shadow-3 {
+    box-shadow: 
+        0px 1px 3px rgba(0, 0, 0, 0.3),
+        0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Progress Bar Animation */
+@keyframes progressPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.progress-pulse {
+    animation: progressPulse 1.5s ease-in-out infinite;
+}
+
+/* Status Badges */
+.status-success {
+    background-color: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.status-error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.status-warning {
+    background-color: #fefce8;
+    color: #a16207;
+    border-color: #fef08a;
+}
+
+/* Card Hover Effects */
+.card-hover {
+    transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0px 2px 4px rgba(0, 0, 0, 0.3),
+        0px 4px 12px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid var(--md-sys-color-primary);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 640px) {
+    .flex-mobile-col {
+        flex-direction: column;
+    }
+    
+    .space-mobile-y > * + * {
+        margin-top: 0.75rem;
+        margin-left: 0;
+    }
+    
+    .w-mobile-full {
+        width: 100%;
+    }
+}
+
+/* Material Symbols Adjustments */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+/* Custom Tooltip */
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--md-sys-color-on-surface);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    margin-bottom: 4px;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* MD3 Dialog Styles */
+#editDialog {
+  width: 780px !important;
+  max-width: 90vw !important;
+  height: 80vh !important;
+  max-height: 80vh !important;
+  --md-dialog-container-shape: 24px;
+  border: 1px solid var(--md-sys-color-outline);
+}
+
+/* Dialog Header Layout */
+md-dialog [slot="headline"] {
+    padding: 16px 24px 16px 24px !important;
+    margin-bottom: 0 !important;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    position: relative;
+    overflow: visible !important;
+    z-index: 10;
+}
+
+md-dialog [slot="headline"]::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Remove any potential dividers */
+md-dialog [slot="headline"] + * {
+    border-top: none !important;
+    margin-top: 16px;
+}
+
+/* Dialog Content Scrolling */
+md-dialog:not(.confirm-dialog) [slot="content"] {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 24px 16px 24px;
+    background-color: var(--md-sys-color-surface-container-high);
+}
+
+/* Dialog Form Fields */
+md-dialog md-outlined-text-field {
+    --md-outlined-text-field-container-color: transparent;
+    --md-outlined-text-field-outline-color: var(--md-sys-color-outline);
+    --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+    --md-outlined-text-field-hover-outline-color: var(--md-sys-color-on-surface-variant);
+    --md-outlined-text-field-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-outlined-text-field-hover-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
+    --md-outlined-text-field-input-text-color: var(--md-sys-color-on-surface);
+    --md-outlined-text-field-container-shape: 12px;
+}
+
+md-dialog md-filled-select {
+    --md-filled-select-text-field-container-color: var(--md-sys-color-surface-container-highest);
+    --md-filled-select-text-field-focus-container-color: var(--md-sys-color-surface-container-highest);
+    --md-filled-select-text-field-input-text-color: var(--md-sys-color-on-surface);
+    --md-filled-select-text-field-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-filled-select-text-field-container-shape: 12px;
+}
+
+md-dialog md-outlined-select {
+    --md-outlined-select-text-field-container-shape: 12px;
+}
+
+/* Dialog Header Buttons */
+md-dialog md-icon-button {
+    --md-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
+}
+
+md-dialog md-icon-button:hover {
+    --md-icon-button-icon-color: var(--md-sys-color-on-surface);
+}
+
+/* Category Menu Styling */
+md-dialog md-menu {
+    --md-menu-container-color: var(--md-sys-color-surface-container-highest);
+    --md-menu-container-elevation: 3;
+    --md-menu-container-shape: 24px;
+    min-width: 195px;
+    width: 195px;
+}
+
+md-dialog md-menu md-menu-item {
+    --md-menu-item-label-text-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-opacity: 0.08;
+    justify-content: center;
+}
+
+/* Save Dialog Button */
+md-icon-button.save-dialog-btn:hover {
+    --md-icon-button-icon-color: var(--md-sys-color-primary);
+}
+
+@media (max-width: 640px) {
+    #editDialog [slot="headline"] #categoryTitleContainer {
+        min-width: auto;
+    }
+}
+
+/* Force remove any borders or dividers in dialog */
+md-dialog {
+    --md-dialog-divider-color: transparent !important;
+}
+
+/* Confirm Dialog - Using MD3 official tokens */
+md-dialog.confirm-dialog {
+    width: 320px !important;
+    --md-dialog-container-color: var(--md-sys-color-surface-container-high);
+    --md-dialog-headline-color: var(--md-sys-color-on-surface);
+    --md-dialog-headline-font: var(--md-sys-typescale-headline-small-font);
+    --md-dialog-headline-size: var(--md-sys-typescale-headline-small-size);
+    --md-dialog-headline-weight: var(--md-sys-typescale-headline-small-weight);
+    --md-dialog-headline-line-height: var(--md-sys-typescale-headline-small-line-height);
+    --md-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
+    --md-dialog-supporting-text-font: var(--md-sys-typescale-body-medium-font);
+    --md-dialog-supporting-text-size: var(--md-sys-typescale-body-medium-size);
+    --md-dialog-supporting-text-weight: var(--md-sys-typescale-body-medium-weight);
+    --md-dialog-supporting-text-line-height: var(--md-sys-typescale-body-medium-line-height);
+    --md-dialog-icon-color: var(--md-sys-color-primary);
+    --md-dialog-icon-size: 24px;
+}
+
+.confirm-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+}
+
+.confirm-icon {
+    font-size: var(--md-dialog-icon-size);
+    color: var(--md-dialog-icon-color);
+    margin-bottom: 20px;
+}
+
+.confirm-title {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--md-sys-color-on-surface);
+    margin: 0 0 20px 0;
+}
+
+.confirm-message {
+    font-family: var(--md-dialog-supporting-text-font);
+    font-size: var(--md-dialog-supporting-text-size);
+    font-weight: var(--md-dialog-supporting-text-weight);
+    line-height: var(--md-dialog-supporting-text-line-height);
+    color: var(--md-dialog-supporting-text-color);
+    margin: 0;
+}
+
+md-dialog.confirm-dialog [slot="actions"] {
+    padding: 16px 24px 24px 24px;
+}
+
+md-dialog *,
+md-dialog *::before,
+md-dialog *::after {
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+md-dialog [slot="headline"],
+md-dialog [slot="headline"] *,
+md-dialog [slot="headline"] + *,
+md-dialog [slot="headline"] ~ * {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+}
+
+/* Category title container styling */
+#categoryTitleContainer {
+    position: relative;
+    min-width: 300px;
+}
+
+/* Menu positioning improvements */
+md-dialog md-menu[positioning="popover"] {
+    transform-origin: top center !important;
+}
+
+
+
+/* Item Row Alignment Fix - Stop Looking Wonky */
+#itemsList .grid {
+    align-items: center !important;
+}
+
+#itemsList md-icon-button {
+    height: 56px;
+    width: 56px;
+    flex-shrink: 0;
+    justify-self: end; /* Align delete button to the right */
+}
+
+#itemsList md-outlined-text-field {
+    --md-outlined-text-field-container-height: 56px;
+}
+
+/* Force all item fields to have the same bottom spacing */
+#itemsList md-outlined-text-field {
+    min-height: calc(56px + 20px); /* container height + supporting text space */
+}
+
+/* Add bottom padding to fields without supporting text */
+#itemsList md-outlined-text-field:not([supporting-text]) {
+    padding-bottom: 20px;
+}
+
+
+
+/* Form Validation Error Styles */
+md-outlined-text-field.error,
+md-outlined-text-field[error] {
+    --md-outlined-text-field-outline-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-focus-outline-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-label-text-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-error-supporting-text-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-error-hover-outline-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-error-hover-label-text-color: var(--md-sys-color-error) !important;
+}
+
+md-outlined-select.error {
+    --md-outlined-select-text-field-outline-color: var(--md-sys-color-error) !important;
+    --md-outlined-select-text-field-focus-outline-color: var(--md-sys-color-error) !important;
+    --md-outlined-select-text-field-hover-outline-color: var(--md-sys-color-error-container) !important;
+    --md-outlined-select-text-field-label-text-color: var(--md-sys-color-error) !important;
+    --md-outlined-select-text-field-hover-label-text-color: var(--md-sys-color-error-container) !important;
+}
+
+md-filled-select.error {
+    --md-filled-select-text-field-outline-color: var(--md-sys-color-error) !important;
+    --md-filled-select-text-field-focus-outline-color: var(--md-sys-color-error) !important;
+    --md-filled-select-text-field-label-text-color: var(--md-sys-color-error) !important;
+}
+
+/* Tax Type Select Width Control for Mixed Tax */
+#itemsList md-outlined-select[data-field="taxType"] {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+    --md-outlined-select-text-field-container-height: 56px;
+    padding-bottom: 20px;
+}
+
+/* Hide supporting text (character counter) for ALL fields when NOT in error state */
+md-outlined-text-field:not([error]) {
+    --md-outlined-text-field-supporting-text-color: transparent !important;
+    --md-outlined-text-field-supporting-text-size: 0 !important;
+}
+
+md-outlined-text-field:not([error])::part(supporting-text) {
+    display: none !important;
+}
+
+/* Show error messages for all fields when in error state */
+md-outlined-text-field[error] {
+    --md-outlined-text-field-error-supporting-text-color: var(--md-sys-color-error) !important;
+    --md-outlined-text-field-supporting-text-size: 0.75rem !important;
+}
+
+/* Ensure error state supporting text is visible */
+md-outlined-text-field[error]::part(supporting-text) {
+    display: block !important;
+    color: var(--md-sys-color-error) !important;
+    font-size: 0.75rem !important;
+}
+
+/* Fix uniform height for all dialog text fields - Same as item fields */
+md-dialog md-outlined-text-field {
+    --md-outlined-text-field-container-height: 56px;
+}
+
+/* Ensure supporting text area has consistent height */
+md-dialog md-outlined-text-field::part(supporting-text) {
+    min-height: 16px;
+    line-height: 16px;
+}
+
+/* Non-error fields need invisible but space-occupying supporting text */
+md-dialog md-outlined-text-field:not([error])::part(supporting-text) {
+    color: transparent !important;
+    visibility: hidden !important;
+    min-height: 16px;
+    line-height: 16px;
+    display: block !important;
+}
+
+
+/* Add Item Button Styles - Material Design 3 */
+md-text-button.add-item-text-btn {
+    --md-text-button-label-text-color: var(--md-sys-color-primary);
+    --md-text-button-icon-color: var(--md-sys-color-primary);
+    --md-text-button-hover-state-layer-color: var(--md-sys-color-primary);
+    --md-text-button-hover-state-layer-opacity: 0.08;
+    --md-text-button-focus-state-layer-color: var(--md-sys-color-primary);
+    --md-text-button-focus-state-layer-opacity: 0.12;
+    --md-text-button-pressed-state-layer-color: var(--md-sys-color-primary);
+    --md-text-button-pressed-state-layer-opacity: 0.12;
+    /* Ensure state layer container has correct size */
+    --md-text-button-container-shape: 20px;
+    --md-text-button-container-height: 40px;
+}
+
+md-text-button.add-item-text-btn:hover {
+    --md-text-button-label-text-color: var(--md-sys-color-primary);
+    --md-text-button-icon-color: var(--md-sys-color-primary);
+}
+
+/* Common styles for both text buttons */
+md-text-button.test-mode-btn,
+md-text-button.platform-btn {
+    --md-text-button-container-height: 40px;
+    --md-text-button-label-text-font: var(--app-font-stack);
+    --md-text-button-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-icon-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-hover-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-hover-icon-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-focus-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-focus-icon-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-pressed-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-text-button-pressed-icon-color: var(--md-sys-color-on-surface-variant);
+}
+
+md-text-button.test-mode-btn.selected {
+    background-color: #3a3a3a !important;
+    --md-text-button-label-text-color: var(--md-sys-color-primary) !important;
+    --md-text-button-icon-color: var(--md-sys-color-primary) !important;
+    --md-text-button-hover-label-text-color: var(--md-sys-color-primary) !important;
+    --md-text-button-hover-icon-color: var(--md-sys-color-primary) !important;
+    --md-text-button-focus-label-text-color: var(--md-sys-color-primary) !important;
+    --md-text-button-focus-icon-color: var(--md-sys-color-primary) !important;
+    --md-text-button-pressed-label-text-color: var(--md-sys-color-primary) !important;
+    --md-text-button-pressed-icon-color: var(--md-sys-color-primary) !important;
+}
+
+
+/* Platform Menu Styling - Same as Dialog Menu */
+#platformMenu {
+    --md-menu-container-color: var(--md-sys-color-surface-container-highest);
+    --md-menu-container-elevation: 3;
+    --md-menu-container-shape: 24px;
+    min-width: 120px;
+}
+
+#platformMenu md-menu-item {
+    --md-menu-item-label-text-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-color: var(--md-sys-color-on-surface);
+    --md-menu-item-hover-state-layer-opacity: 0.08;
+}
+
+/* Global MD3 Select Option Styles */
+md-select-option {
+    --md-menu-item-selected-container-color: rgba(255, 255, 255, 0.08);
+    --md-menu-item-hover-state-layer-color: rgba(255, 255, 255, 0.05);
+    --md-menu-item-focus-state-layer-color: rgba(255, 255, 255, 0.08);
+}
+
+md-select-option[selected] {
+    --md-menu-item-selected-container-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Dialog Section Separators - Darker Gradient Lines */
+#editDialog .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(82, 82, 91, 0.6) 20%, 
+        rgba(82, 82, 91, 0.9) 50%, 
+        rgba(82, 82, 91, 0.6) 80%, 
+        transparent 100%
+    );
+    border: none !important;
+    margin: 16px 0 32px 0 !important;
+    display: block !important;
+}
+
+/* First Block: Add Item and Comment Layout */
+
+/* Comment field styling - 50% width and right aligned */
+#editDialog .w-1\/2.ml-auto {
+    max-width: 50%;
+}
+
+/* Second Block: Amount Summary Layout */
+
+/* Amount labels right alignment - only the label text, not the numbers */
+.amount-label {
+    text-align: right;
+    min-width: 80px; /* Ensure consistent spacing for right alignment */
+}
+
+/* Add Item button styling in dialog */
+#editDialog md-text-button.add-item-text-btn {
+    margin: 0;
+    flex-shrink: 0;
+    /* Remove padding: 0, preserve MD3 button's correct internal structure */
+}
+
+/* Item Fields Grid - Responsive Layout */
+@media (max-width: 640px) {
+    .item-fields-grid {
+        grid-template-columns: 1fr 56px !important;
+        gap: 12px !important;
+    }
+
+    /* Row 1: Name (full width) */
+    .item-fields-grid > *:nth-child(1) {
+        grid-column: 1 / -1;
+    }
+
+    /* Row 2: Qty (full width) */
+    .item-fields-grid > *:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+
+    /* Row 3: Unit (full width) */
+    .item-fields-grid > *:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    /* Row 4: Price + Delete (or Tax if exists) */
+    .item-fields-grid > *:nth-child(4) {
+        grid-column: 1;
+    }
+
+    /* Tax (full width if exists) */
+    .item-fields-grid > *:nth-child(5):not(.remove-item-btn) {
+        grid-column: 1 / -1;
+    }
+
+    /* Delete button */
+    .item-fields-grid > .remove-item-btn {
+        grid-column: 2;
+        grid-row: 4;
+    }
+
+    /* When Tax exists, Delete moves to row 6 */
+    .item-fields-grid > *:nth-child(6) {
+        grid-column: 2;
+        grid-row: 5;
+    }
+}
+
+/* Comment input styling */
+#editDialog .w-1\/2 md-outlined-text-field {
+    --md-outlined-text-field-container-height: 40px;
+}
+
+/* Force right alignment for comment input - Multiple approaches */
+#editDialog .comment-field input,
+#editDialog md-outlined-text-field.comment-field input,
+#editDialog md-outlined-text-field.comment-field::part(input),
+#editDialog .comment-field ::part(input) {
+    text-align: right !important;
+}
+
+/* Additional hiding for comment field character counter */
+#editDialog .comment-field::part(supporting-text) {
+    display: none !important;
+}
+
+/* Amount Summary spacing improvements - No longer needed as border was removed */
+
+/* Dialog Blur Effect - Input Container & Statistics Section */
+.input-container,
+#statsSection {
+    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-container.dialog-blur,
+#statsSection.dialog-blur,
+#previewSection.dialog-blur {
+    filter: blur(4px);
+    opacity: 0.6;
+    pointer-events: none; /* Prevent interaction when blurred */
+}
+
+
+/* Platform Menu Blur Effect - Invoice Table with Gradient */
+#previewSection {
+    position: relative;
+}
+
+#previewSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to top,
+        rgba(10, 10, 10, 0.8) 0%,
+        rgba(10, 10, 10, 0.6) 30%,
+        rgba(10, 10, 10, 0.4) 60%,
+        rgba(10, 10, 10, 0.2) 80%,
+        transparent 100%
+    );
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    mask: linear-gradient(
+        to top,
+        black 0%,
+        black 20%,
+        rgba(0,0,0,0.8) 40%,
+        rgba(0,0,0,0.5) 70%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#previewSection.menu-blur::before {
+    opacity: 1;
+}
+
+
+
+/* =====================================
+   HEADER STYLING
+   ===================================== */
+
+/* Header Background */
+header {
+    background-color: var(--md-sys-color-surface);
+}
+
+/* =====================================
+   SCROLL GLASS OVERLAY EFFECTS
+   ===================================== */
+
+/* Header Glass Overlay controlled by scroll state */
+body.scrolled header {
+    background: linear-gradient(
+        to bottom,
+        #0a0a0a 0%,
+        #0a0a0a 85%,
+        rgba(10, 10, 10, 0.6) 100%
+    );
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Bottom Input Area Glass Overlay - No extra length */
+body.scrolled .fixed.bottom-0 {
+    background: linear-gradient(
+        to top,
+        #0a0a0a 0%,
+        #0a0a0a 80%,
+        rgba(10, 10, 10, 0.9) 90%,
+        rgba(10, 10, 10, 0.7) 95%,
+        rgba(10, 10, 10, 0.4) 100%
+    ) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+}
+
+/* =====================================
+   CAVEAT HANDWRITING FONT FOR LOGO
+   ===================================== */
+
+/* Caveat - Relaxed and natural, professional yet casual */
+.font-caveat {
+    font-family: 'Caveat', cursive;
+}
+
+/* Logo Text Shimmer Effect */
+.logo-shimmer {
+    position: relative;
+    overflow: visible;
+}
+
+.logo-shimmer::before {
+    content: 'Lazy e-Invoice';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 40%,
+        #0f172a 50%,
+        transparent 60%,
+        transparent 100%
+    );
+    background-size: 210% 100%;
+    background-position: 80% 0%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: textShimmer 18s infinite linear 18s;
+    animation-fill-mode: none;
+}
+
+@keyframes textShimmer {
+    0% {
+        opacity: 0;
+        background-position: 80% 0%;
+    }
+    1% {
+        opacity: 1;
+        background-position: 80% 0%;
+    }
+    11% {
+        opacity: 1;
+        background-position: -80% 0%;
+    }
+    12% {
+        opacity: 0;
+        background-position: -80% 0%;
+    }
+    100% {
+        opacity: 0;
+        background-position: 80% 0%;
+    }
+}
+
+/* =====================================
+   FOOTER LINK STYLES
+   ===================================== */
+
+/* Footer links hover effect using primary color */
+.footer-link {
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--md-sys-color-primary) !important;
+}
+
+/* =====================================
+   TABLE ROW ANIMATIONS
+   ===================================== */
+
+/* Simple fade animations for table rows */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.row-fade-in {
+    animation: fadeIn 0.6s ease-out;
+    opacity: 0;
+}
+
+.row-fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+/* =====================================
+   WELCOME SCREEN STYLES
+   ===================================== */
+
+#welcomeScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.welcome-container {
+    position: relative;
+    width: 780px;
+    height: 482px;
+    background-color: var(--md-sys-color-surface-container);
+    border: 1px solid rgb(39, 39, 42);
+    border-radius: 24px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    color: var(--md-sys-color-on-surface);
+}
+
+@media (max-width: 820px) {
+    .welcome-container {
+        width: 85%;
+        max-width: 600px;
+        height: auto;
+        min-height: 600px;
+    }
+}
+
+@media (max-width: 640px) {
+    .welcome-container {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        min-height: 560px;
+        border-radius: 24px;
+    }
+}
+
+.welcome-logo {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    margin-top: -1rem;
+}
+
+.welcome-subtitle {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.welcome-footer {
+    margin-top: auto;
+    text-align: center;
+}
+
+.welcome-footer .footer-link {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.welcome-footer .footer-link:hover {
+    color: var(--md-sys-color-primary);
+}
+
+.welcome-content {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.feature-card {
+    position: relative;
+    border: 1px solid rgb(63, 63, 70);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+    .feature-card {
+        aspect-ratio: 1.618 / 1;
+    }
+}
+
+.feature-card:hover {
+    border-color: var(--md-sys-color-primary);
+}
+
+.feature-card.selected {
+    border-color: var(--md-sys-color-primary);
+}
+
+.card-icon {
+    font-size: 1rem;
+    color: var(--md-sys-color-primary);
+    flex-shrink: 0;
+    line-height: 1rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+    line-height: 1.2;
+}
+
+.card-description {
+    font-size: 0.75rem;
+    color: var(--md-sys-color-on-surface-variant);
+    line-height: 1.5;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.footer-copyright {
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+/* Info Tooltip Styling */
+.info-tooltip {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    padding: 16px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    width: 16rem;
+    background-color: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+    border-radius: 24px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    z-index: 50;
+    display: none;
+}
+
+.info-tooltip:not(.hidden) {
+    display: block;
+}
+
+/* Desktop: Tooltip above button */
+@media (min-width: 640px) {
+    .info-tooltip {
+        top: auto;
+        bottom: 100%;
+        margin-top: 0;
+        margin-bottom: 8px;
+        width: 20rem;
+    }
+}
+
+.welcome-container::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    filter: blur(40px);
+    transform: scale(1.3);
+    background: linear-gradient(90deg, #0fffc1, #7e0fff);
+    background-size: 200% 200%;
+    animation: animateGlow 10s ease infinite;
+}
+
+@keyframes animateGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ide-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Welcome Page Responsive Design */
+@media (max-width: 768px) {
+    .ide-container {
+        padding: 2rem 1rem;
+    }
+    
+    .feature-cards {
+        flex-direction: column;
+    }
+}
+

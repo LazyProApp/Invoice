@@ -1,0 +1,18 @@
+# 系統檔案
+.DS_Store
+
+# 測試目錄
+tst/
+demo/
+
+# Node.js 相關
+node_modules/
+package.json
+package-lock.json
+
+# 開發工具配置
+.prettierrc
+js/.prettierrc
+
+# 測試檔案
+js/test-void-integration.js
