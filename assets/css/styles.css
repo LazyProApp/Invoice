@@ -1586,6 +1586,34 @@ body.scrolled .fixed.bottom-0 {
         0 0 180px 60px rgba(126, 15, 255, 0.3);
 }
 
+.welcome-container::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    filter: blur(40px);
+    transform: scale(1.3);
+    background: linear-gradient(90deg, #0fffc1, #7e0fff);
+    background-size: 200% 200%;
+    animation: animateGlow 10s ease infinite;
+    display: none;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    .welcome-container::before {
+        display: none;
+    }
+
+    .welcome-container::after {
+        display: block;
+    }
+}
+
 @keyframes animateGlow {
     0% {
         background-position: 0% 50%;
