@@ -7,8 +7,8 @@ function routeUrl(url) {
   const hostname = window?.location?.hostname;
 
   if (url === './api/kick.php' || url.endsWith('/api/kick.php')) {
-    if (typeof window !== 'undefined' && hostname && hostname.includes('lazyinvoice.app')) {
-      return 'https://lazyinvoice.app/kick';
+    if (typeof window !== 'undefined' && hostname && hostname.includes('lazypro.app')) {
+      return 'https://invoice.lazypro.app/kick';
     }
   }
 

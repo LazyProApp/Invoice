@@ -14,7 +14,7 @@
 ## 快速開始
 
 ### 線上使用
-訪問 [https://lazyinvoice.app](https://lazyinvoice.app)
+訪問 [https://invoice.lazypro.app](https://invoice.lazypro.app)
 
 **隱私說明**：使用 Cloudflare Workers 轉發 API 請求，不記錄、不儲存任何發票資料。所有資料僅在瀏覽器與各平台 API 之間傳輸。
 
