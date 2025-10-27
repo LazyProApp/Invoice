@@ -1273,6 +1273,11 @@ md-select-option[selected] {
 /* Header Background */
 header {
     background-color: var(--md-sys-color-surface);
+    overflow-x: visible;
+}
+
+header .logo-shimmer {
+    padding-right: 0.3em;
 }
 
 /* =====================================

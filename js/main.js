@@ -423,8 +423,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const app = new LazyInvoiceApp();
 
-
   await app.initialize();
+
+  const initialLoader = document.getElementById('initial-loader');
+  if (initialLoader) {
+    initialLoader.style.opacity = '0';
+    initialLoader.style.transition = 'opacity 0.3s ease-out';
+    setTimeout(() => {
+      initialLoader.remove();
+    }, 300);
+  }
 
   window.addEventListener('beforeunload', function () {
     app.destroy();
