@@ -1,0 +1,3 @@
+# Redirect from old domain to new domain
+https://lazyinvoice.app/* https://invoice.lazypro.app/:splat 301
+http://lazyinvoice.app/* https://invoice.lazypro.app/:splat 301
